@@ -1,0 +1,111 @@
+/***********************/
+/* Header */
+/***********************/
+
+/* .header {
+  height: 2rem;
+} */
+
+/***********************/
+/* Intro */
+/***********************/
+
+.main-content {
+  height: 80%;
+}
+
+.game-title-bg {
+  background-image: url(../img/bg/pokemon-title-background.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100dvw;
+  height: 100dvh;
+
+  position: relative;
+}
+
+.pokemon-title {
+  background: url(../img/logo/pokemon-logo.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 102rem;
+  height: 37em;
+
+  position: absolute;
+  top: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.round-robin-title {
+  font-family: "Pocket Monk";
+  font-size: 16rem;
+  color: #ffcb05;
+  -webkit-text-stroke: 1rem #0d508d;
+  text-shadow: 2px 8px 10px #000;
+  letter-spacing: 8px;
+
+  position: absolute;
+  width: 100dvw;
+  top: 33%;
+  text-align: center;
+}
+
+.pokemon-char-intro-bg {
+  z-index: 2;
+  position: absolute;
+  bottom: 9%;
+}
+
+.treeko-bg-cont {
+  bottom: 7% !important;
+}
+
+.treeko-img,
+.treeko-bg-cont {
+  height: 18rem;
+  left: 20%;
+}
+
+.torchic-img,
+.torchic-bg-cont {
+  height: 14rem;
+  left: 48%;
+}
+
+.mudkip-img,
+.mudkip-bg-cont {
+  height: 14rem;
+  right: 20%;
+}
+
+.btn,
+.btn:link,
+.btn:visited {
+  font-size: 4rem;
+  color: #ddd;
+  background-color: #3860aa;
+  padding: 2rem 4rem;
+  border-radius: 13px;
+  box-shadow: 0px 4px 8px 6px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
+
+  opacity: 0.9;
+
+  position: absolute;
+  bottom: 27%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  transition: all 0.3s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #2d4d88;
+  color: #fff;
+}
+
+.btn:active {
+  transform: translate(-50%, -45%);
+  box-shadow: 0px 2px 4px 3px rgba(0, 0, 0, 0.1);
+}

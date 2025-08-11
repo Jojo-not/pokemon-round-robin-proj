@@ -1,0 +1,17 @@
+/* Title / Header / Start Title / Buttons / Menus */
+@font-face {
+  font-family: "Pocket Monk";
+  src: url("../misc/fonts/pocket-monk/PocketMonk.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Dialogues */
+@font-face {
+  font-family: "Pocket GB";
+  src: url("../misc/fonts/pokemon-gb/PokemonGb-RAeo.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
