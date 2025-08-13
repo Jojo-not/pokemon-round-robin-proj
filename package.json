@@ -1,5 +1,17 @@
 {
   "dependencies": {
-    "bootstrap": "^5.3.7"
-  }
+    "bootstrap": "^5.3.7",
+    "sass": "^1.90.0"
+  },
+  "name": "pokemon-round-robin",
+  "version": "1.0.0",
+  "description": "SPA game for pokemon round robin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sass:build": "npx sass --no-source-map scss:css",
+    "sass:watch": "npx sass --no-source-map --watch scss:css"
+  },
+  "author": "Ramyr Garceniego",
+  "license": "MIT"
 }
