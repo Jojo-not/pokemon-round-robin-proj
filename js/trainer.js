@@ -1,3 +1,8 @@
+/**
+ *
+ * player object
+ *
+ */
 export const player = {
   id: "1",
   playerName: "",
@@ -19,6 +24,11 @@ export const player = {
 
 export let _opponents = [];
 
+/**
+ *
+ * list of objects containing premade opponents
+ *
+ */
 export const opponentList = [
   {
     id: "2",
@@ -76,6 +86,15 @@ export const opponentList = [
   },
 ];
 
+/**
+ *
+ * @param numberOfOpponents
+ * @param opponentList
+ *
+ * Uses quicksort algorithm. Utilises recurssion.
+ *
+ * @returns shuffled opponent list
+ */
 export function setOpponents(numberOfOpponents, opponentList) {
   for (let i = opponentList.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -90,6 +109,12 @@ export function setOpponents(numberOfOpponents, opponentList) {
   return opponents;
 }
 
+/**
+ *
+ * @param opponents
+ * @param pokemons
+ * @returns inputs shuffled pokemons to opponents
+ */
 export function setOpponentPokemons(opponents, pokemons) {
   for (let i = 0; i < opponents.length; i++) {
     opponents[i].pokemon = structuredClone(pokemons[i]);

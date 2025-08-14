@@ -22,6 +22,11 @@ mainContent.innerHTML = Main.introHTML;
 const startGameBtn = mainContent.querySelector(".start-btn");
 const player = trainers.player;
 
+/**
+ *
+ *  Entry point of the game
+ *
+ */
 startGameBtn.addEventListener("click", function (e) {
   console.log("start btn clicked");
 
@@ -32,6 +37,11 @@ startGameBtn.addEventListener("click", function (e) {
   selectGender();
 });
 
+/**
+ *
+ *  Gender selection
+ *
+ */
 function selectGender() {
   console.log("Current Page: Gender selection section page");
   mainContent.innerHTML = Main.selectCharacter;
@@ -74,6 +84,11 @@ function selectGender() {
   });
 }
 
+/**
+ *
+ *  Pokemon selection
+ *
+ */
 function selectPokemon() {
   mainContent.innerHTML = Main.selectPokemon;
 
@@ -99,6 +114,13 @@ function selectPokemon() {
     });
 }
 
+/**
+ *
+ *  Number of opponents selection
+ *  Sets the number of opponents and their pokemons
+ *  Sets tournament scoreboard
+ *
+ */
 function selectNumberOfOpponents() {
   mainContent.innerHTML = Main.selectNumberOfOpponents;
 
@@ -139,12 +161,31 @@ function selectNumberOfOpponents() {
   });
 }
 
+/**
+ *
+ *  Entry point of battles
+ *  Sets round index to 0
+ *
+ */
 async function startTournament() {
   currentRoundIndex = 0;
 
   await evaluateNextRound();
 }
 
+/**
+ *
+ *  Starts the round.
+ *  If currentRound is equal or bigger than the tournament roster:
+ *    - End game.
+ *    - Open Scoreboard
+ *    - Allow player to start again
+ *
+ *  Else, start match.
+ *    - If player's turn, run renderPlayerBattle()
+ *    - Else, run renderAIBattle()
+ *
+ */
 async function evaluateNextRound() {
   if (currentRoundIndex >= tournamentRoster.length) {
     const scoreModalEl = document.querySelector(".score-modal-section");
@@ -202,6 +243,12 @@ async function evaluateNextRound() {
   }
 }
 
+/**
+ *
+ *  Starts player battle until a player's hp reaches 0
+ *  Then, move on to return to evaluateNextRound().
+ *
+ */
 function renderPlayerBattle(trainerA, trainerB, round) {
   mainContent.innerHTML = Main.renderBattleStart(
     trainerA,
@@ -295,6 +342,12 @@ function renderPlayerBattle(trainerA, trainerB, round) {
   });
 }
 
+/**
+ *
+ *  Starts computer battle until a player's hp reaches 0
+ *  Then, move on to return to evaluateNextRound().
+ *
+ */
 async function renderAIBattle(trainerA, trainerB, round) {
   mainContent.innerHTML = Main.renderBattleStart(
     trainerA,
@@ -334,6 +387,11 @@ async function renderAIBattle(trainerA, trainerB, round) {
   evaluateNextRound();
 }
 
+/**
+ *
+ *  Updates visual and animation after each attack
+ *
+ */
 function updateBattleVisuals(trainerA, trainerB, turn) {
   const playerHP = document.querySelector(
     ".player-pokemon-stat-cont .pokemon-battle-stat span"
