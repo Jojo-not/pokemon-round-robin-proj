@@ -125,20 +125,15 @@ export function evaluateTurn(player, opponent, playerActionResult) {
 
   const matchupMultiplier = getMatchupMultiplier(playerAction, opponentAction);
 
-  const biasMultiplier = Math.floor(
-    getBiasMultiplier(
-      playerAction,
-      player.pokemon,
-      opponentAction,
-      opponent.pokemon
-    )
+  const biasMultiplier = getBiasMultiplier(
+    playerAction,
+    player.pokemon,
+    opponentAction,
+    opponent.pokemon
   );
 
-  const damage = computeDamage(
-    basePower,
-    biasMultiplier,
-    matchupMultiplier,
-    typeMultiplier
+  const damage = Math.floor(
+    computeDamage(basePower, biasMultiplier, matchupMultiplier, typeMultiplier)
   );
 
   console.log(
@@ -151,12 +146,12 @@ export function evaluateTurn(player, opponent, playerActionResult) {
   );
 
   if (result === "win") {
-    opponentPokemon.health -= Math.floor(damage);
+    opponentPokemon.health -= damage;
   } else if (result === "lose") {
-    playerPokemon.health -= Math.floor(damage);
+    playerPokemon.health -= damage;
   } else if (result === "both damaged") {
-    opponentPokemon.health -= Math.floor(damage);
-    playerPokemon.health -= Math.floor(damage);
+    opponentPokemon.health -= damage;
+    playerPokemon.health -= damage;
   }
 
   playerPokemon.health = Math.max(0, playerPokemon.health);
@@ -319,7 +314,7 @@ export async function simulateAIBattleWithDelay(
       renderCallback(trainerA, trainerB, turns.at(-1));
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 800)); // delay per turn
+    await new Promise((resolve) => setTimeout(resolve, 300)); // delay per turn
   }
 
   return {

@@ -1,29 +1,17 @@
 "use strict";
 
 const scoreBoard = [];
-const tournamentScoreBoard = [];
-
-const score = {
-  trainer: "",
-  wins: 0,
-  loses: 0,
-};
 
 export function addRoundWin(winner) {
   const player = scoreBoard.find((p) => p.trainer === winner);
-  return Boolean(player.wins++);
-}
-
-export function addRoundLoss(loser) {
-  const player = scoreBoard.find((p = p.trainer === loser));
-  return Boolean(player.loses++);
+  player.wins++;
+  //   console.log("Player Score Stat:", player);
 }
 
 export function setTrainerScore(player) {
   scoreBoard.push({
     trainer: player.playerName,
     wins: 0,
-    loses: 0,
   });
 }
 
@@ -33,16 +21,6 @@ export function setScoreBoard(players) {
   });
 
   return scoreBoard;
-}
-
-export function recordRoundResults() {
-  const roundSnapshot = scoreBoard.map((player) => ({ ...player }));
-  tournamentScoreBoard.push(roundSnapshot);
-}
-
-export function getRoundScoreBoard(roundNo) {
-  const round = tournamentScoreBoard[roundNo - 1];
-  return round ? rankPlayers(round) : null;
 }
 
 export function getScoreBoard() {

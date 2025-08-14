@@ -14,6 +14,7 @@ window.battle = battle;
 let tournamentRoster = [];
 let roundRobinPlayers = [];
 let currentRoundIndex = 0;
+let tournamentScoreBoard = [];
 
 const mainContent = document.getElementById("main-content");
 mainContent.innerHTML = Main.introHTML;
@@ -119,28 +120,26 @@ function selectNumberOfOpponents() {
       trainers.setOpponentPokemons(opponents, shuffledStarterPokemons);
       battle.setNumberOfRounds(numberOfOpponents);
 
-      const roundRobinPlayers = structuredClone(opponents);
+      roundRobinPlayers = structuredClone(opponents);
       roundRobinPlayers.unshift(player);
 
       console.log("Round Robin Players:", roundRobinPlayers);
 
-      const battleRoster = battle.scheduleRounds(roundRobinPlayers.length);
+      tournamentRoster = battle.scheduleRounds(roundRobinPlayers.length);
 
-      console.log("Battle Roster:", battleRoster);
+      console.log("Battle Roster:", tournamentRoster);
 
-      startTournament(roundRobinPlayers, battleRoster);
+      tournamentScoreBoard = score.setScoreBoard(roundRobinPlayers);
+      console.log("Scoreboard:", tournamentScoreBoard);
 
-      const scoreBoard = score.setScoreBoard(roundRobinPlayers);
-      console.log("Scoreboard:", scoreBoard);
+      startTournament();
 
       // playerBattle(roundRobinPlayers, battleRoster);
     });
   });
 }
 
-async function startTournament(players, roster) {
-  roundRobinPlayers = players;
-  tournamentRoster = roster;
+async function startTournament() {
   currentRoundIndex = 0;
 
   await evaluateNextRound();
@@ -148,8 +147,41 @@ async function startTournament(players, roster) {
 
 async function evaluateNextRound() {
   if (currentRoundIndex >= tournamentRoster.length) {
+    const scoreModalEl = document.querySelector(".score-modal-section");
+    const playAgain = document.querySelector(".play-again-btn");
+
     console.log("Tournament complete!");
-    console.log(score.getScoreBoard());
+    console.log("Final Ranking:", score.getScoreBoard());
+    scoreModalEl.classList.remove("d-none");
+    sectionEl.classList.add("blur");
+    playAgain.classList.remove("d-none");
+    document.querySelector(".score-message").classList.remove("d-none");
+
+    playAgain.addEventListener("click", function () {
+      window.location.reload();
+      scoreModalEl.classList.add("d-none");
+    });
+
+    closeBtn.addEventListener("click", function () {
+      // console.log("clicked!");
+      scoreModalEl.classList.add("d-none");
+    });
+
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !scoreModalEl.classList.contains("d-none")) {
+        scoreModalEl.classList.add("d-none");
+      }
+    });
+
+    document.addEventListener("click", function (e) {
+      const isModalVisible = !scoreModalEl.classList.contains("d-none");
+      const clickedInsideModal = e.target.closest(".score-modal-section");
+      const clickedOpenButton = e.target.closest(".battle-btn-score");
+
+      if (isModalVisible && !clickedInsideModal && !clickedOpenButton) {
+        scoreModalEl.classList.add("d-none");
+      }
+    });
     return;
   }
 
@@ -159,6 +191,8 @@ async function evaluateNextRound() {
   const round = match.round;
 
   const isPlayerMatch = trainerA.id === player.id || trainerB.id === player.id;
+
+  console.log("Current Ranking:", score.getScoreBoard());
 
   if (isPlayerMatch) {
     renderPlayerBattle(trainerA, trainerB, round);
@@ -171,11 +205,14 @@ function renderPlayerBattle(trainerA, trainerB, round) {
   mainContent.innerHTML = Main.renderBattleStart(
     trainerA.pokemon,
     trainerB.pokemon,
-    round
+    round,
+    score.getScoreBoard()
   );
 
+  document.querySelector(".battle-btn-cont").style.display = "flex";
+
   document.querySelectorAll(".battle-btn").forEach((btn) => {
-    btn.addEventListener("click", function (e) {
+    btn.addEventListener("click", async function (e) {
       const btnValue = e.currentTarget.value;
       const result = battle.evaluatePlayerBattle(trainerA, trainerB, btnValue);
 
@@ -184,17 +221,62 @@ function renderPlayerBattle(trainerA, trainerB, round) {
       if (result.playerHP <= 0 || result.opponentHP <= 0) {
         const roundWinner =
           result.playerHP > 0 ? trainerA.playerName : trainerB.playerName;
-        console.log(score.getRoundScoreBoard(currentRoundIndex + 1));
+
         score.addRoundWin(roundWinner);
 
         currentRoundIndex++;
         battle.recoverPokemon(trainerA.pokemon, trainerB.pokemon);
-        console.log(score.getRoundScoreBoard(currentRoundIndex));
-        evaluateNextRound(); // continue tournament
+
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        evaluateNextRound();
       } else {
         renderPlayerBattle(trainerA, trainerB, round); // next turn
       }
     });
+  });
+
+  // **** Modal Functions **** //
+
+  const scoreModalBtn = document.querySelector(".battle-btn-score");
+  const closeBtn = document.querySelector(".score-close-btn");
+  const scoreModalEl = document.querySelector(".score-modal-section");
+  const playAgain = document.querySelector(".play-again-btn");
+  const sectionEl = document.querySelector("section");
+
+  scoreModalBtn.addEventListener("click", function () {
+    console.log("clicked!");
+    scoreModalEl.classList.toggle("d-none");
+    sectionEl.classList.add("blur");
+  });
+
+  playAgain.addEventListener("click", function () {
+    window.location.reload();
+    scoreModalEl.classList.add("d-none");
+    sectionEl.classList.remove("blur");
+  });
+
+  closeBtn.addEventListener("click", function () {
+    // console.log("clicked!");
+    scoreModalEl.classList.add("d-none");
+    sectionEl.classList.remove("blur");
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !scoreModalEl.classList.contains("d-none")) {
+      scoreModalEl.classList.add("d-none");
+      sectionEl.classList.remove("blur");
+    }
+  });
+
+  document.addEventListener("click", function (e) {
+    const isModalVisible = !scoreModalEl.classList.contains("d-none");
+    const clickedInsideModal = e.target.closest(".score-modal-section");
+    const clickedOpenButton = e.target.closest(".battle-btn-score");
+
+    if (isModalVisible && !clickedInsideModal && !clickedOpenButton) {
+      scoreModalEl.classList.add("d-none");
+      sectionEl.classList.remove("blur");
+    }
   });
 }
 
@@ -202,8 +284,13 @@ async function renderAIBattle(trainerA, trainerB, round) {
   mainContent.innerHTML = Main.renderBattleStart(
     trainerA.pokemon,
     trainerB.pokemon,
-    round
+    round,
+    score.getScoreBoard()
   );
+
+  document.querySelectorAll(".battle-btn-cont").forEach((el) => {
+    el.style.display = "none";
+  });
 
   const result = battle.simulateAIBattleWithDelay(
     trainerA,
@@ -218,6 +305,8 @@ async function renderAIBattle(trainerA, trainerB, round) {
 
   score.addRoundWin(winner);
   currentRoundIndex++;
+  battle.recoverPokemon(trainerA.pokemon, trainerB.pokemon);
+  await new Promise((resolve) => setTimeout(resolve, 500));
   evaluateNextRound();
 }
 

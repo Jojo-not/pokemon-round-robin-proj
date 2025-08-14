@@ -143,7 +143,7 @@
   padding: 4rem;
   background-color: #fff;
   border-radius: 50%;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .select-trainer-btn:hover {
@@ -303,7 +303,11 @@
 
 .game-battle-bg {
   background: linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)),
-    url("/img/battle/battle-bg.jpg");
+    url("/img/bg/battle-template-1.jpg");
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .game-grid {
@@ -329,7 +333,7 @@
   display: flex;
   justify-content: flex-start;
   gap: 6rem;
-  margin-left: 10rem;
+  /* margin-left: 10rem; */
 
   /* display: none; */
 }
@@ -341,24 +345,50 @@
   display: flex;
   justify-content: flex-end;
   gap: 6rem;
-  margin-right: 10rem;
+  /* margin-right: 10rem; */
+}
+
+.player-pokemon-img-cont,
+.opponent-pokemon-img-cont {
+  align-self: flex-end;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .player-pokemon-img,
 .opponent-pokemon-img {
-  align-self: flex-end;
+  z-index: 2;
+  /* width: 50%; */
+
+  position: absolute;
 }
 
 .player-pokemon-img {
   height: 24rem;
+
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .opponent-pokemon-img {
-  height: 14rem;
+  height: 16rem;
+
+  bottom: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pokemon-floor {
+  width: 20dvw;
+
+  z-index: 0;
 }
 
 .player-pokemon-stat-cont {
-  height: 50%;
+  height: auto;
   width: 20dvw;
   align-self: center;
 
@@ -388,9 +418,9 @@
   margin-bottom: 10rem;
 } */
 
-.battle-btn-cont {
+.battle-btn-post {
   z-index: 5;
-  width: 70%;
+  width: 100%;
   height: 100%;
   grid-column: 3/5;
   grid-row: 5/6;
@@ -399,33 +429,174 @@
 
   border: 5px solid #0d508d;
   border-radius: 11px;
-  background-color: rgba(170, 170, 170, 0.9);
+  background-color: #aaaaaae6;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  padding: 1rem 0;
 }
 
-.battle-btn-cont-2 {
-  display: flex;
-  justify-content: space-around;
+.battle-btn-cont {
+  display: grid !important;
+  grid-template-columns: 0.15fr 1fr 0.15fr 1fr 0.15fr;
+  grid-template-rows: 0.3fr 1fr 0.3fr 1fr 0.3fr;
+  justify-content: center;
+  align-items: center;
 }
 
-.battle-btn {
-  width: 28rem;
+.battle-btn,
+.battle-btn-score {
+  width: 100%;
+  height: 100%;
   font-size: 3.2rem;
-  /* padding: 1rem; */
 
   border-radius: 7px;
 
   box-shadow: 0 2px 4px 4px rgba(0, 0, 0, 0.09);
 
-  transition: all 0.3s ease-in-out;
+  transition: all 0.1s ease-in-out;
 }
 
-.battle-btn:active {
-  transform: translateY(2px);
+.battle-btn:hover,
+.battle-btn-score:hover {
+  background-color: #ddd;
+}
+
+.battle-btn:active,
+.battle-btn-score:active {
+  transform: translateY(5px);
+  box-shadow: none;
+}
+
+.battle-btn-a {
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
+.battle-btn-d {
+  grid-column: 4/5;
+  grid-row: 2/3;
+}
+
+.battle-btn-p {
+  grid-column: 2/3;
+  grid-row: 4/5;
+}
+
+.battle-btn-s {
+  grid-column: 4/5;
+  grid-row: 4/5;
+}
+
+/***********************/
+/* Score Modal */
+/***********************/
+
+.score-modal-section {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  z-index: 10;
+}
+
+.score-modal-cont {
+  background-color: #0d508d;
+  border: 5px solid red;
+  border-radius: 11px;
+  padding: 2rem;
+
+  height: auto;
+  width: 50dvw;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.top-rank-crown {
+  height: 1.6rem;
+  padding-right: 2rem;
+}
+
+.score-modal-content {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: space-between; */
+}
+
+.score-title {
+  font-size: 4rem;
+  -webkit-text-stroke: 0.1rem #0d508d;
+  letter-spacing: 5px;
+  margin-bottom: 2rem;
+}
+
+.score-message,
+.score-header {
+  font-size: 1.6rem;
+}
+
+.score-message {
+  margin-top: 3rem;
+  color: #ddd;
+}
+
+thead {
+  color: #999;
+  margin-bottom: 7rem;
+}
+
+td,
+.table-rank-text {
+  font-size: 1.2rem;
+  color: #fff;
+  letter-spacing: 3px;
+  font-weight: 400;
+}
+
+.table-name-data-cont {
+  display: flex;
+  justify-content: space-between;
+}
+
+.score-col {
+  width: 2.4rem !important;
+}
+
+.play-again-btn {
+  width: max-content;
+  margin: 0 auto;
+  padding: 1.5rem 3rem;
+  border-radius: 11px;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.3);
+
+  transition: all 0.1s ease-in-out;
+}
+
+.score-close-btn {
+  width: fit-content;
+  height: fit-content;
+  font-weight: bold;
+
+  padding: 0.5rem 0.75rem;
+  border-radius: 7px;
+
+  position: absolute;
+  right: 1.5rem;
+  top: 1.5rem;
+
+  box-shadow: 0 2px 4px 2px rgba(0, 0, 0, 0.3);
+}
+
+.play-again-btn:hover,
+.score-close-btn:hover {
+  background-color: #ccc;
+}
+
+.play-again-btn:active,
+.score-close-btn:active {
+  transform: translateY(5px);
   box-shadow: none;
 }

@@ -254,84 +254,186 @@ export const selectNumberOfOpponents = `
   </section>
 `;
 
-export function renderBattleStart(playerPokemon, opponentPokemon, roundNo) {
+export function renderBattleStart(
+  playerPokemon,
+  opponentPokemon,
+  roundNo,
+  scoreBoard
+) {
   return `
-<section class="battle-setting-section">
-  <div class="game-battle-bg game-bg game-grid">
-    <div class="round-cont">
-      <p class="round-text pokemon-style-font d-flex justify-content-center">
-        <span>Round</span>
-        &ThickSpace;
-        <span>${roundNo}</span>
-      </p>
-    </div>
+  <section class="battle-setting-section">
+    <div class="game-battle-bg game-bg game-grid">
+      <div class="round-cont">
+        <p class="round-text pokemon-style-font d-flex justify-content-center">
+          <span>Round</span>
+          &ThickSpace;
+          <span>${roundNo}</span>
+        </p>
+      </div>
 
-    <!-- Player Pokemon -->
-    <div class="player-pokemon-cont">
-      <div class="player-pokemon-stat-cont">
-        <p class="pokemon-battle-name text-center">${
-          playerPokemon.pokemonName
-        }</p>
-        <p class="pokemon-battle-stat">Health:
-          <span class="pokemon-description-value text-capitalize">${
-            playerPokemon.health
-          }</span>
-        </p>
-        <p class="pokemon-battle-stat">Status:
-          <span class="pokemon-description-value text-capitalize">${
-            playerPokemon.status ?? "Normal"
-          }</span>
-        </p>
-        <p class="pokemon-battle-stat">Type:
-          <span class="pokemon-description-value text-capitalize">${
-            playerPokemon.pokemonType
-          }</span>
-        </p>
+      <!-- Player Pokemon -->
+      <div class="player-pokemon-cont">
+        <div class="player-pokemon-stat-cont">
+          <p class="pokemon-battle-name text-center">${
+            playerPokemon.pokemonName
+          }</p>
+          <p class="pokemon-battle-stat">Health:
+            <span class="pokemon-description-value text-capitalize">${
+              playerPokemon.health
+            }</span>
+          </p>
+          <p class="pokemon-battle-stat">Status:
+            <span class="pokemon-description-value text-capitalize">${
+              playerPokemon.status ?? "Normal"
+            }</span>
+          </p>
+          <p class="pokemon-battle-stat">Type:
+            <span class="pokemon-description-value text-capitalize">${
+              playerPokemon.pokemonType
+            }</span>
+          </p>
+        </div>
+        <div class="player-pokemon-img-cont">
+          <img
+            class="player-pokemon-img"
+            src="https://img.pokemondb.net/sprites/black-white/anim/back-normal/${playerPokemon.pokemonName.toLowerCase()}.gif"
+            alt="${playerPokemon.pokemonName}"
+          />
+          <img
+            class="pokemon-floor"
+            src="/img/bg/pokemon_battle_template_floor.png"
+            alt=""
+          />
+        </div>
       </div>
-      <img class="player-pokemon-img"
-        src="https://img.pokemondb.net/sprites/black-white/anim/back-normal/${playerPokemon.pokemonName.toLowerCase()}.gif"
-        alt="${playerPokemon.pokemonName}" />
-    </div>
 
-    <!-- Opponent Pokemon -->
-    <div class="opponent-pokemon-cont">
-      <img class="opponent-pokemon-img"
-        src="https://img.pokemondb.net/sprites/black-white/anim/normal/${opponentPokemon.pokemonName.toLowerCase()}.gif"
-        alt="${opponentPokemon.pokemonName}" />
-      <div class="player-pokemon-stat-cont">
-        <p class="pokemon-battle-name text-center">${
-          opponentPokemon.pokemonName
-        }</p>
-        <p class="pokemon-battle-stat">Health:
-          <span class="pokemon-description-value text-capitalize">${
-            opponentPokemon.health
-          }</span>
-        </p>
-        <p class="pokemon-battle-stat">Status:
-          <span class="pokemon-description-value text-capitalize">${
-            opponentPokemon.status ?? "Normal"
-          }</span>
-        </p>
-        <p class="pokemon-battle-stat">Type:
-          <span class="pokemon-description-value text-capitalize">${
-            opponentPokemon.pokemonType
-          }</span>
-        </p>
-      </div>
-    </div>
+      <!-- Opponent Pokemon -->
+      <div class="opponent-pokemon-cont">
+        <div class="opponent-pokemon-cont">
+          <div class="opponent-pokemon-img-cont">
+            <img
+              class="opponent-pokemon-img"
+              src="https://img.pokemondb.net/sprites/black-white/anim/normal/${opponentPokemon.pokemonName.toLowerCase()}.gif"
+              alt="${opponentPokemon.pokemonName}"
+            />
 
-    <!-- Buttons -->
-    <div class="battle-btn-cont">
-      <div class="battle-btn-cont-2">
-        <button class="battle-btn" value="attack">Attack</button>
-        <button class="battle-btn" value="defend">Defend</button>
+            <img
+              class="pokemon-floor"
+              src="/img/bg/pokemon_battle_template_floor.png"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="player-pokemon-stat-cont">
+          <p class="pokemon-battle-name text-center">${
+            opponentPokemon.pokemonName
+          }</p>
+          <p class="pokemon-battle-stat">Health:
+            <span class="pokemon-description-value text-capitalize">${
+              opponentPokemon.health
+            }</span>
+          </p>
+          <p class="pokemon-battle-stat">Status:
+            <span class="pokemon-description-value text-capitalize">${
+              opponentPokemon.status ?? "Normal"
+            }</span>
+          </p>
+          <p class="pokemon-battle-stat">Type:
+            <span class="pokemon-description-value text-capitalize">${
+              opponentPokemon.pokemonType
+            }</span>
+          </p>
+        </div>
       </div>
-      <div class="battle-btn-cont-2">
-        <button class="battle-btn" value="parry">Parry</button>
-        <button class="battle-btn" value="scoreBoard">Scores</button>
+
+      <!-- Buttons -->
+      <div class="battle-btn-cont battle-btn-post">
+          <button class="battle-btn battle-btn-a" value="attack">Attack</button>
+          <button class="battle-btn battle-btn-d" value="defend">Defend</button>
+          <button class="battle-btn battle-btn-p" value="parry">Parry</button>
+          <button class="battle-btn-score battle-btn-s" value="scoreBoard">Scores</button>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+
+  <aside class="score-modal-section d-none">
+      <div class="score-modal-cont">
+        <div class="score-modal-content">
+          <p class="score-title text-center pokemon-style-font">
+            Tournament Ranking
+          </p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th class="score-header" scope="col">#</th>
+                <th class="score-header" class="text-center" scope="col">
+                  Name
+                </th>
+                <th
+                  class="score-header text-center score-col"
+                  class="text-center"
+                  scope="col"
+                >
+                  Score
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              ${generateRankingModal(scoreBoard)}
+            </tbody>
+          </table>
+
+          <p class="score-message text-center d-none">Thank you for playing!</p>
+        </div>
+        <button class="play-again-btn d-none" title="Play Again">
+          Play Again ?
+        </button>
+        <button class="score-close-btn" title="Close">X</button>
+      </div>
+    </aside>
 `;
+}
+
+function generateRankingModal(scoreBoard) {
+  if (!Array.isArray(scoreBoard) || scoreBoard.length === 0) {
+    return;
+  }
+
+  return scoreBoard
+    .map((trainers, index) => {
+      return `
+      <tr>
+        <th class="table-rank-text" scope="row">${index + 1}</th>
+        <td>
+          <div class="table-name-data-cont">
+            ${trainers.trainer}
+            <span
+              >${
+                index + 1 === 1
+                  ? `<img
+                class="top-rank-crown"
+                src="/img/misc/crown-gold.svg"
+                alt="gold crown"
+            />`
+                  : index + 1 === 2
+                  ? `<img
+                class="top-rank-crown"
+                src="/img/misc/crown-silver.svg"
+                alt="silver crown"
+            />`
+                  : index + 1 === 3
+                  ? `<img
+                class="top-rank-crown"
+                src="/img/misc/crown-bronze.svg"
+                alt="bronze crown"
+            />`
+                  : ""
+              }</span>
+          </div>
+        </td>
+        <td class="text-center">${trainers.wins}</td>
+      </tr>
+    `;
+    })
+    .join("");
 }
