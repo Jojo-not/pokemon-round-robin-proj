@@ -8,9 +8,9 @@ let numberOfRounds;
 const actions = ["attack", "defend", "parry"];
 const weightedActions = [
   "attack",
-  "attack",
+  // "attack",
   "defend",
-  "defend",
+  // "defend",
   "parry",
   "parry",
   // "recover",
@@ -231,6 +231,7 @@ export function evaluatePlayerBattle(player, opponent, playerAction) {
     opponentAction,
     playerHP: turnOutcome.player.pokemon.health,
     opponentHP: turnOutcome.opponent.pokemon.health,
+    damage: turnOutcome.damage,
   };
 
   // console.log("Battle Result:", result);
@@ -246,41 +247,6 @@ export function evaluatePlayerBattle(player, opponent, playerAction) {
   }
 
   return battleResult;
-}
-
-export function simulateAIBattle(trainerA, trainerB) {
-  const battleLog = [];
-
-  while (trainerA.pokemon.health > 0 && trainerB.pokemon.health > 0) {
-    const actionA = generateEnemyAttack();
-    const actionB = generateEnemyAttack();
-
-    const actionResult = {
-      playerAction: actionA,
-      opponentAction: actionB,
-      result: actionMatrix[actionA]?.[actionB] ?? "tie",
-    };
-
-    const turnOutcome = evaluateTurn(trainerA, trainerB, actionResult);
-
-    battleLog.push({
-      actionA,
-      actionB,
-      result: actionResult.result,
-      hpA: turnOutcome.player.pokemon.health,
-      hpB: turnOutcome.opponent.pokemon.health,
-    });
-  }
-
-  const winner =
-    trainerA.pokemon.health > 0 ? trainerA.playerName : trainerB.playerName;
-
-  return {
-    trainerA,
-    trainerB,
-    result: winner,
-    turns: battleLog,
-  };
 }
 
 export async function simulateAIBattleWithDelay(
@@ -308,13 +274,14 @@ export async function simulateAIBattleWithDelay(
       result: actionResult.result,
       hpA: turnOutcome.player.pokemon.health,
       hpB: turnOutcome.opponent.pokemon.health,
+      damage: turnOutcome.damage,
     });
 
     if (renderCallback) {
-      renderCallback(trainerA, trainerB, turns.at(-1));
+      renderCallback(trainerA, trainerB, turns.at(-1), turnOutcome.damage);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 300)); // delay per turn
+    await new Promise((resolve) => setTimeout(resolve, 800)); // delay per turn
   }
 
   return {

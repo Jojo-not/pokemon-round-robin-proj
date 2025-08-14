@@ -255,7 +255,9 @@ export const selectNumberOfOpponents = `
 `;
 
 export function renderBattleStart(
+  player,
   playerPokemon,
+  opponent,
   opponentPokemon,
   roundNo,
   scoreBoard
@@ -309,7 +311,6 @@ export function renderBattleStart(
 
       <!-- Opponent Pokemon -->
       <div class="opponent-pokemon-cont">
-        <div class="opponent-pokemon-cont">
           <div class="opponent-pokemon-img-cont">
             <img
               class="opponent-pokemon-img"
@@ -322,28 +323,29 @@ export function renderBattleStart(
               src="/img/bg/pokemon_battle_template_floor.png"
               alt=""
             />
+            
           </div>
-        </div>
-        <div class="player-pokemon-stat-cont">
-          <p class="pokemon-battle-name text-center">${
-            opponentPokemon.pokemonName
-          }</p>
-          <p class="pokemon-battle-stat">Health:
-            <span class="pokemon-description-value text-capitalize">${
-              opponentPokemon.health
-            }</span>
-          </p>
-          <p class="pokemon-battle-stat">Status:
-            <span class="pokemon-description-value text-capitalize">${
-              opponentPokemon.status ?? "Normal"
-            }</span>
-          </p>
-          <p class="pokemon-battle-stat">Type:
-            <span class="pokemon-description-value text-capitalize">${
-              opponentPokemon.pokemonType
-            }</span>
-          </p>
-        </div>
+          <div class="player-pokemon-stat-cont">
+            <p class="pokemon-battle-name text-center">${
+              opponentPokemon.pokemonName
+            }</p>
+            <p class="pokemon-battle-stat">Health:
+              <span class="pokemon-description-value text-capitalize">${
+                opponentPokemon.health
+              }</span>
+            </p>
+            <p class="pokemon-battle-stat">Status:
+              <span class="pokemon-description-value text-capitalize">${
+                opponentPokemon.status ?? "Normal"
+              }</span>
+            </p>
+            <p class="pokemon-battle-stat">Type:
+              <span class="pokemon-description-value text-capitalize">${
+                opponentPokemon.pokemonType
+              }</span>
+            </p>
+          </div>
+        
       </div>
 
       <!-- Buttons -->
@@ -352,6 +354,13 @@ export function renderBattleStart(
           <button class="battle-btn battle-btn-d" value="defend">Defend</button>
           <button class="battle-btn battle-btn-p" value="parry">Parry</button>
           <button class="battle-btn-score battle-btn-s" value="scoreBoard">Scores</button>
+
+          <div class="ai-battle-log-cont d-none">
+            <p class="ai-battle-log text-center">AI Battle:</p>
+            <p class="ai-battle-log text-center text-capitalize">${
+              player.playerName
+            } vs ${opponent.playerName}</p>
+          </div>
       </div>
     </div>
   </section>

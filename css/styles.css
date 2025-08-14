@@ -368,7 +368,7 @@
 .player-pokemon-img {
   height: 24rem;
 
-  bottom: 50%;
+  bottom: 25%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -387,9 +387,26 @@
   z-index: 0;
 }
 
+.opponent-damage-text,
+.player-damage-text {
+  color: #f00;
+  font-size: 5rem;
+
+  position: absolute;
+  bottom: 25rem;
+}
+
+.opponent-damage-text {
+  right: 0;
+}
+
+.player-damage-text {
+  left: 0;
+}
+
 .player-pokemon-stat-cont {
   height: auto;
-  width: 20dvw;
+  min-width: 31rem;
   align-self: center;
 
   background-color: rgba(200, 200, 200, 0.9);
@@ -412,6 +429,21 @@
 
 .pokemon-description-value {
   font-weight: 700;
+}
+
+.ai-battle-log-cont {
+  grid-column: 2/5;
+  grid-row: 2/5;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  height: 100%;
+}
+
+.ai-battle-log {
+  font-size: 2.4rem;
 }
 
 /* .player-pokemon-stat-cont p:last-child {
@@ -483,6 +515,58 @@
 .battle-btn-s {
   grid-column: 4/5;
   grid-row: 4/5;
+}
+
+.hp-flash {
+  animation: flashHP 0.3s ease;
+}
+
+.player-pokemon-action {
+  animation: playerAction 0.3s ease;
+}
+
+.opponent-pokemon-action {
+  animation: opponentAction 0.3s ease;
+}
+
+@keyframes flashHP {
+  0% {
+    background-color: #f00;
+    color: #fff;
+  }
+  100% {
+    background-color: transparent;
+    color: inherit;
+  }
+}
+
+@keyframes playerAction {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes opponentAction {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes damageEffect {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(30px);
+    opacity: 1;
+  }
 }
 
 /***********************/

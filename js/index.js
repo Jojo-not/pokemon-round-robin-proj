@@ -149,6 +149,7 @@ async function evaluateNextRound() {
   if (currentRoundIndex >= tournamentRoster.length) {
     const scoreModalEl = document.querySelector(".score-modal-section");
     const playAgain = document.querySelector(".play-again-btn");
+    const sectionEl = document.querySelector("section");
 
     console.log("Tournament complete!");
     console.log("Final Ranking:", score.getScoreBoard());
@@ -203,18 +204,29 @@ async function evaluateNextRound() {
 
 function renderPlayerBattle(trainerA, trainerB, round) {
   mainContent.innerHTML = Main.renderBattleStart(
+    trainerA,
     trainerA.pokemon,
+    trainerB,
     trainerB.pokemon,
     round,
     score.getScoreBoard()
   );
 
-  document.querySelector(".battle-btn-cont").style.display = "flex";
+  document.querySelector(".battle-btn").style.display = "block";
+  document.querySelector(".battle-btn-score").style.display = "block";
+  document.querySelector(".ai-battle-log-cont").classList.add("d-none");
 
   document.querySelectorAll(".battle-btn").forEach((btn) => {
     btn.addEventListener("click", async function (e) {
       const btnValue = e.currentTarget.value;
       const result = battle.evaluatePlayerBattle(trainerA, trainerB, btnValue);
+
+      updateBattleVisuals(trainerA, trainerB, {
+        hpA: result.playerHP,
+        hpB: result.opponentHP,
+        actionA: result.playerAction,
+        actionB: result.opponentAction,
+      });
 
       console.log("Battle Result:", result);
 
@@ -224,13 +236,16 @@ function renderPlayerBattle(trainerA, trainerB, round) {
 
         score.addRoundWin(roundWinner);
 
+        const roundWinnerObj = roundRobinPlayers.find(
+          (x) => x.playerName === roundWinner
+        );
+        pokemons.evolvePokemon(roundWinnerObj);
+
         currentRoundIndex++;
         battle.recoverPokemon(trainerA.pokemon, trainerB.pokemon);
 
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 800));
         evaluateNextRound();
-      } else {
-        renderPlayerBattle(trainerA, trainerB, round); // next turn
       }
     });
   });
@@ -262,7 +277,7 @@ function renderPlayerBattle(trainerA, trainerB, round) {
   });
 
   document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !scoreModalEl.classList.contains("d-none")) {
+    if (e.key === "Enter" && !scoreModalEl.classList.contains("d-none")) {
       scoreModalEl.classList.add("d-none");
       sectionEl.classList.remove("blur");
     }
@@ -282,15 +297,22 @@ function renderPlayerBattle(trainerA, trainerB, round) {
 
 async function renderAIBattle(trainerA, trainerB, round) {
   mainContent.innerHTML = Main.renderBattleStart(
+    trainerA,
     trainerA.pokemon,
+    trainerB,
     trainerB.pokemon,
     round,
     score.getScoreBoard()
   );
 
-  document.querySelectorAll(".battle-btn-cont").forEach((el) => {
+  document.querySelectorAll(".battle-btn").forEach((el) => {
     el.style.display = "none";
   });
+  document.querySelectorAll(".battle-btn-score").forEach((el) => {
+    el.style.display = "none";
+  });
+
+  document.querySelector(".ai-battle-log-cont").classList.remove("d-none");
 
   const result = battle.simulateAIBattleWithDelay(
     trainerA,
@@ -304,9 +326,11 @@ async function renderAIBattle(trainerA, trainerB, round) {
     trainerA.pokemon.health > 0 ? trainerA.playerName : trainerB.playerName;
 
   score.addRoundWin(winner);
+  const roundWinnerObj = roundRobinPlayers.find((x) => x.playerName === winner);
+  pokemons.evolvePokemon(roundWinnerObj);
   currentRoundIndex++;
   battle.recoverPokemon(trainerA.pokemon, trainerB.pokemon);
-  await new Promise((resolve) => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 800));
   evaluateNextRound();
 }
 
@@ -318,10 +342,28 @@ function updateBattleVisuals(trainerA, trainerB, turn) {
     ".opponent-pokemon-cont .pokemon-battle-stat span"
   );
 
+  const playerPokemon = document.querySelector(".player-pokemon-img");
+
+  const opponentPokemon = document.querySelector(".opponent-pokemon-img");
+
   if (playerHP) playerHP.textContent = turn.hpA;
   if (opponentHP) opponentHP.textContent = turn.hpB;
 
+  playerHP.classList.add("hp-flash");
+  playerPokemon.classList.add("player-pokemon-action");
+  setTimeout(() => {
+    opponentHP.classList.add("hp-flash");
+    opponentPokemon.classList.add("opponent-pokemon-action");
+  }, 500);
+
+  setTimeout(() => {
+    playerHP.classList.remove("hp-flash");
+    playerPokemon.classList.remove("player-pokemon-action");
+    opponentHP.classList.remove("hp-flash");
+    opponentPokemon.classList.remove("opponent-pokemon-action");
+  }, 300);
+
   console.log(
-    `AI Turn: ${trainerA.playerName} used ${turn.actionA}, ${trainerB.playerName} used ${turn.actionB}`
+    `${trainerA.playerName} used ${turn.actionA}, ${trainerB.playerName} used ${turn.actionB}`
   );
 }

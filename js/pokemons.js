@@ -933,7 +933,7 @@ export function getPokemon(listOfPokemons, pName) {
   );
 }
 
-export function getNextEvolution(pokemonName, evolutionChains) {
+export function getNextEvolution(pokemonName) {
   for (const chainObj of evolutionChains) {
     const chain = chainObj.chain;
     const index = chain.findIndex((p) => p.pokemonName === pokemonName);
@@ -947,17 +947,33 @@ export function getNextEvolution(pokemonName, evolutionChains) {
 }
 
 export function setEvolvedPokemon(currentPokemon, evolutionPokemon) {
-  currentPokemon.pokemonName = evolutionPokemon.pokemonName;
-  currentPokemon.pokemonType = structuredClone(evolutionPokemon.pokemonType);
-  currentPokemon.health = evolutionPokemon.statTier;
-  currentPokemon.maxHealth = evolutionPokemon.statTier;
-  currentPokemon.stamina = evolutionPokemon.statTier;
-  currentPokemon.maxStamina = evolutionPokemon.statTier;
-  currentPokemon.bias = structuredClone(evolutionPokemon.bias);
-  currentPokemon.evolution = structuredClone(evolutionPokemon.evolution);
-  currentPokemon.isRare = evolutionPokemon.isRare;
+  if (Boolean(evolutionPokemon)) {
+    currentPokemon.pokemonName = evolutionPokemon.pokemonName;
+    currentPokemon.pokemonType = structuredClone(evolutionPokemon.pokemonType);
+    currentPokemon.health = evolutionPokemon.statTier;
+    currentPokemon.maxHealth = evolutionPokemon.statTier;
+    currentPokemon.stamina = evolutionPokemon.statTier;
+    currentPokemon.maxStamina = evolutionPokemon.statTier;
+    currentPokemon.bias = structuredClone(evolutionPokemon.bias);
+    currentPokemon.evolution = structuredClone(evolutionPokemon.evolution);
+    currentPokemon.isRare = evolutionPokemon.isRare;
+
+    // console.log("Current Evolved Pokemon:", currentPokemon);
+  }
+
+  return;
 }
 
 export function canEvolve(pokemon) {
   return Boolean(pokemon.evolution?.next);
+}
+
+export function evolvePokemon(player) {
+  // console.log("Player for evolution:", player);
+  const playerPokemonObj = player.pokemon;
+  // console.log("Evolving Pokemon:", playerPokemonObj.pokemonName);
+  const pokemonEvolution = getNextEvolution(playerPokemonObj.pokemonName);
+  // console.log("Next Evolution:", pokemonEvolution);
+
+  return setEvolvedPokemon(playerPokemonObj, pokemonEvolution);
 }
