@@ -1,12 +1,12 @@
 "use strict";
 
 import * as Main from "./main.js";
+import { connectWallet, checkWalletConnection } from "./wallet.js";
 import * as trainers from "./trainer.js";
 import * as pokemons from "./pokemons.js";
 import * as battle from "./battle.js";
 import * as score from "./score.js";
 
-window.Main = Main;
 window.trainers = trainers;
 window.pokemons = pokemons;
 window.battle = battle;
@@ -17,25 +17,12 @@ let currentRoundIndex = 0;
 let tournamentScoreBoard = [];
 
 const mainContent = document.getElementById("main-content");
-mainContent.innerHTML = Main.introHTML;
-
-const startGameBtn = mainContent.querySelector(".start-btn");
 const player = trainers.player;
 
-/**
- *
- *  Entry point of the game
- *
- */
-startGameBtn.addEventListener("click", function (e) {
-  console.log("start btn clicked");
+mainContent.innerHTML = Main.introHTML;
 
-  e.preventDefault();
 
-  console.log("player:", player);
 
-  selectGender();
-});
 
 /**
  *
@@ -425,3 +412,32 @@ function updateBattleVisuals(trainerA, trainerB, turn) {
     `${trainerA.playerName} used ${turn.actionA}, ${trainerB.playerName} used ${turn.actionB}`
   );
 }
+
+// When your app starts
+document.addEventListener("DOMContentLoaded", () => {
+  // Render the initial intro page
+  mainContent.innerHTML = Main.introHTML;
+
+  // Check if wallet is already connected
+  checkWalletConnection();
+
+  // Add event listener for the connect button
+  document.body.addEventListener("click", (e) => {
+    const startGameBtn = mainContent.querySelector(".start-btn");
+    const connectBtn = e.target.closest("#connect-wallet-btn");
+    const startBtn = e.target.closest("#start-btn");
+    if (connectBtn) {
+      connectWallet();
+       if (startGameBtn) {
+      startGameBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        console.log("Start Game button clicked");
+        selectGender();
+      });
+    }
+    } else if (startBtn) {
+      
+     
+    }
+  });
+});

@@ -15,8 +15,8 @@ export const introHTML = `
         <p class="round-robin-title">Round-Robin Edition</p>
 
         <!-- Start Button -->
-        <a class="start-btn title-btn" id="start-btn">
-          <span>Game Start</span>                                                             
+        <a class="start-btn title-btn" id="connect-wallet-btn">
+          <span>Connect Wallet</span>                                                             
         </a>
 
         <!-- Pokemon Char BG -->
