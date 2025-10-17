@@ -4,9 +4,8 @@
  *
  */
 export const player = {
-  id: "1",
+  id: "",
   playerName: "",
-  gender: "",
   avatar: {
     avatarFront: "",
     avatarBack: "",

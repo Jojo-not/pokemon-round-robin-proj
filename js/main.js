@@ -5,6 +5,34 @@ export const pokemonStarter = pokemons.starterOptions;
 export const pokemonEvolutionChain = pokemons.evolutionChains;
 export const pokemonRare = pokemons.rarePokemons;
 export const legendaryPokemons = pokemons.legendaryPokemons;
+import { characters } from "./characters.js";
+
+
+/**
+ * Helper function to create HTML for a pokemon on the intro screen.
+ * @param {string} name - The name of the pokemon (e.g., 'treecko').
+ * @param {string} alt - The alt text for the image.
+ * @returns {string} HTML string for the pokemon display.
+ */
+function createIntroPokemon(name, alt) {
+  const properName = name.charAt(0).toUpperCase() + name.slice(1);
+  return `
+    <div class="pokemon-char-intro-bg ${name}-bg-cont">
+      <a 
+        href="https://pokemondb.net/pokedex/${name}"
+        rel="noopener noreferrer"
+        target="_blank"
+        aria-label="${properName} Sprite Wiki"
+      >
+        <img
+          class="${name}-img"
+          src="https://img.pokemondb.net/sprites/black-white/anim/normal/${name}.gif"
+          alt="${alt}"
+        />
+      </a>
+    </div>
+  `;
+}
 
 export const introHTML = `
   <section class="game-intro-page">
@@ -21,121 +49,73 @@ export const introHTML = `
 
         <!-- Pokemon Char BG -->
         <div class="pokemon-char-bg">
-          <!-- Pokemon BG Designs - Treecko -->
-          <div class="pokemon-char-intro-bg treeko-bg-cont">
-            <a 
-              href="https://pokemondb.net/pokedex/treecko"
-              rel="noopener noreferrer"
-              target="_blank"
-              aria-label="Treecko Sprite Wiki"
-              ><img
-                class="treeko-img"
-                src="https://img.pokemondb.net/sprites/black-white/anim/normal/treecko.gif"
-                alt="Treecko"
-            /></a>
-          </div>
-
-          <!-- Pokemon BG Designs - Torchic -->
-          <div class="pokemon-char-intro-bg torchic-bg-cont">
-            <a 
-              href="https://pokemondb.net/pokedex/torchic"
-              rel="noopener noreferrer"
-              target="_blank"
-              aria-label="Torchic Wiki"
-              ><img
-                class="torchic-img"
-                src="https://img.pokemondb.net/sprites/black-white/anim/normal/torchic-f.gif"
-                alt="Torchic"
-            /></a>
-          </div>
-
-          <!-- Pokemon BG Designs - Mudkip -->
-          <div class="pokemon-char-intro-bg mudkip-bg-cont">
-            <a 
-              href="https://pokemondb.net/pokedex/mudkip"
-              rel="noopener noreferrer"
-              target="_blank"
-              aria-label="Mudkip Sprite Wiki"
-              ><img
-                class="mudkip-img"
-                src="https://img.pokemondb.net/sprites/black-white/anim/normal/mudkip.gif"
-                alt="Mudkip"
-            /></a>
-          </div>
+          ${createIntroPokemon("treecko", "Treecko")}
+          ${createIntroPokemon("torchic", "Torchic")}
+          ${createIntroPokemon("mudkip", "Mudkip")}
         </div>
       </div>
   </section>
 `;
 
-export const selectCharacter = `
-  <section class="game-intro-choose-player">
-    <!-- Pokemon BG -->
-    <div class="game-title-bg-2 game-bg">
-      <!-- Select Character -->
-      <p class="choose-player-title">Choose Your Character</p>
-
-      <!-- Pokemon Trainer Options -->
-      <div class="trainer-selection-cont">
-        <!-- Select Male -->
-        <div class="select-male-cont">
-          <button class="select-trainer-btn male" value="male">
-            <img
-              class="select-male-img"
-              src="/img/trainer/male-svgrepo-com.svg"
-              alt="Select - Male"
-            />
-          </button>
+export const selectCharacterPage = `...${characters.map((char) => `
+  <div class="carousel-item">
+    <div class="trainer-card ${char.id} no-bg">
+      <button class="select-trainer-btn ${char.id}" value="${char.id}">
+        <div class="trainer-img-cont no-bg">
+          <img class="trainer-img ${char.id}-img" src="${char.img}" alt="${char.name}" />
         </div>
-
-        <!-- Select Female -->
-        <div class="select-female-cont">
-          <button class="select-trainer-btn female" value="female">
-            <img
-              class="select-female-img"
-              src="/img/trainer/female-svgrepo-com.svg"
-              alt="Select - Male"
-            />
-          </button>
-        </div>
-      </div>
-
-      <!-- Pokemon Trainer BG -->
-      <div class="pokemon-char-bg">
-        <!-- Pokemon Trainer - May -->
-        <div class="pokemon-trainer-intro-bg may-bg-cont">
-          <a
-            href="https://bulbapedia.bulbagarden.net/wiki/May_(game)"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="May Birch Wiki"
-            ><img
-              class="may-img"
-              src="/img/trainer/May-Sprite-1.png"
-              alt="May Birch"
-          /></a>
-
-          <p class="title-trainer-name">May Birch</p>
-        </div>
-
-        <!-- Pokemon Trainer - Brendan -->
-        <div class="pokemon-trainer-intro-bg brendan-bg-cont">
-          <a
-            href="https://bulbapedia.bulbagarden.net/wiki/Brendan_(game)"
-            rel="noopener noreferrer"
-            target="_blank"
-            aria-label="Brendan Sprite Wiki"
-            ><img
-              class="brendan-img"
-              src="/img/trainer/Brendan-Sprite-1.png"
-              alt="Brendan Sprite"
-          /></a>
-
-          <p class="title-trainer-name">Brendan Birch</p>
-        </div>
-      </div>
+        <p class="trainer-name">${char.name}</p>
+      </button>
     </div>
-  </section>
-`;
+  </div>
+`).join("")}...`;
+
+/**
+ * Helper function to create a stat line for a pokemon.
+ * @param {string} label - The name of the stat (e.g., 'Type').
+ * @param {string|number} value - The value of the stat.
+ * @returns {string} HTML string for the stat paragraph.
+ */
+function createPokemonStat(label, value) {
+  return `
+    <p class="pokemon-description">
+      ${label}:
+      <span class="pokemon-description-value text-capitalize">${value}</span>
+    </p>
+  `;
+}
+
+function pokemonStarterCarousel(pokemonStarter) {
+  return pokemonStarter
+    .map((pokemon, index) => {
+      return `
+        <div class="carousel-item ${index === 0 ? "active" : ""}">
+          <a
+            href="https://pokemondb.net/pokedex/${pokemon.pokemonName}"
+            class="pokemon-select-cont"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <img
+              class="d-block pokemon-selection-img"
+              src="https://img.pokemondb.net/sprites/black-white/anim/normal/${pokemon.pokemonName.toLowerCase()}.gif"
+              alt="${pokemon.pokemonName}"
+            />
+            <div class="pokemon-select-description">
+              <p class="pokemon-selection-name text-center">${
+                pokemon.pokemonName
+              }</p>
+              ${createPokemonStat("Type", pokemon.pokemonType)}
+              ${createPokemonStat("Evolution", pokemon.evolution.next)}
+              ${createPokemonStat("Health", pokemon.health)}
+              ${createPokemonStat("Stamina", pokemon.stamina)}
+            </div>
+          </a>
+        </div>
+      `;
+    })
+    .join("");
+}
 
 export const selectPokemon = `
 <section class="game-intro-choose-pokemon">
@@ -177,58 +157,6 @@ export const selectPokemon = `
 </section>
 `;
 
-function pokemonStarterCarousel(pokemonStarter) {
-  return pokemonStarter
-    .map((pokemon, index) => {
-      return `
-        <div class="carousel-item ${index === 0 ? "active" : ""}">
-          <a
-            href="https://pokemondb.net/pokedex/${pokemon.pokemonName}"
-            class="pokemon-select-cont"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img
-              class="d-block pokemon-selection-img"
-              src="https://img.pokemondb.net/sprites/black-white/anim/normal/${pokemon.pokemonName.toLowerCase()}.gif"
-              alt="${pokemon.pokemonName}"
-            />
-            <div class="pokemon-select-description">
-              <p class="pokemon-selection-name text-center">${
-                pokemon.pokemonName
-              }</p>
-              <p class="pokemon-description">
-                Type:
-                <span class="pokemon-description-value text-capitalize">${
-                  pokemon.pokemonType
-                }</span>
-              </p>
-              <p class="pokemon-description">
-                Evolution:
-                <span class="pokemon-description-value text-capitalize">${
-                  pokemon.evolution.next
-                }</span>
-              </p>
-              <p class="pokemon-description">
-                Health:
-                <span class="pokemon-description-value text-capitalize">${
-                  pokemon.health
-                }</span>
-              </p>
-              <p class="pokemon-description">
-                Stamina:
-                <span class="pokemon-description-value text-capitalize">${
-                  pokemon.stamina
-                }</span>
-              </p>
-            </div>
-          </a>
-        </div>
-      `;
-    })
-    .join("");
-}
-
 export const selectNumberOfOpponents = `
   <section class="battle-setting-section">
     <!-- Pokemon BG -->
@@ -254,6 +182,74 @@ export const selectNumberOfOpponents = `
   </section>
 `;
 
+/**
+ * Helper function to generate the HTML for a pokemon's battle stats.
+ * @param {object} pokemon - The pokemon object.
+ * @returns {string} HTML string for the pokemon's stats.
+ */
+function renderPokemonBattleStats(pokemon) {
+  return `
+    <p class="pokemon-battle-name text-center">${pokemon.pokemonName}</p>
+    <p class="pokemon-battle-stat">Health:
+      <span class="pokemon-description-value text-capitalize">${
+        pokemon.health
+      }</span>
+    </p>
+    <p class="pokemon-battle-stat">Status:
+      <span class="pokemon-description-value text-capitalize">${
+        pokemon.status ?? "Normal"
+      }</span>
+    </p>
+    <p class="pokemon-battle-stat">Type:
+      <span class="pokemon-description-value text-capitalize">${
+        pokemon.pokemonType
+      }</span>
+    </p>
+  `;
+}
+
+/**
+ * Helper function to return an HTML img tag for a rank crown.
+ * @param {number} rank - The rank of the player (1, 2, or 3).
+ * @returns {string} HTML img tag or an empty string.
+ */
+function getRankCrown(rank) {
+  const crowns = {
+    1: { src: "/img/misc/crown-gold.svg", alt: "gold crown" },
+    2: { src: "/img/misc/crown-silver.svg", alt: "silver crown" },
+    3: { src: "/img/misc/crown-bronze.svg", alt: "bronze crown" },
+  };
+
+  if (crowns[rank]) {
+    return `<img class="top-rank-crown" src="${crowns[rank].src}" alt="${crowns[rank].alt}" />`;
+  }
+  return "";
+}
+
+function generateRankingModal(scoreBoard) {
+  if (!Array.isArray(scoreBoard) || scoreBoard.length === 0) {
+    return "";
+  }
+
+  return scoreBoard
+    .map((trainer, index) => {
+      const rank = index + 1;
+      return `
+      <tr>
+        <th class="table-rank-text" scope="row">${rank}</th>
+        <td>
+          <div class="table-name-data-cont">
+            ${trainer.trainer}
+            <span>${getRankCrown(rank)}</span>
+          </div>
+        </td>
+        <td class="text-center">${trainer.wins}</td>
+      </tr>
+    `;
+    })
+    .join("");
+}
+
 export function renderBattleStart(
   player,
   playerPokemon,
@@ -273,80 +269,46 @@ export function renderBattleStart(
         </p>
       </div>
 
-      <!-- Player Pokemon -->
-      <div class="player-pokemon-cont">
-        <div class="player-pokemon-stat-cont">
-          <p class="pokemon-battle-name text-center">${
-            playerPokemon.pokemonName
-          }</p>
-          <p class="pokemon-battle-stat">Health:
-            <span class="pokemon-description-value text-capitalize">${
-              playerPokemon.health
-            }</span>
-          </p>
-          <p class="pokemon-battle-stat">Status:
-            <span class="pokemon-description-value text-capitalize">${
-              playerPokemon.status ?? "Normal"
-            }</span>
-          </p>
-          <p class="pokemon-battle-stat">Type:
-            <span class="pokemon-description-value text-capitalize">${
-              playerPokemon.pokemonType
-            }</span>
-          </p>
-        </div>
-        <div class="player-pokemon-img-cont">
-          <img
-            class="player-pokemon-img"
-            src="https://img.pokemondb.net/sprites/black-white/anim/back-normal/${playerPokemon.pokemonName.toLowerCase()}.gif"
-            alt="${playerPokemon.pokemonName}"
-          />
-          <img
-            class="pokemon-floor"
-            src="/img/bg/pokemon_battle_template_floor.png"
-            alt=""
-          />
-        </div>
+     <!-- Player Pokemon -->
+    <div class="player-pokemon-cont">
+      <div class="player-pokemon-stat-cont">
+        ${renderPokemonBattleStats(playerPokemon)}
       </div>
-
-      <!-- Opponent Pokemon -->
-      <div class="opponent-pokemon-cont">
-          <div class="opponent-pokemon-img-cont">
-            <img
-              class="opponent-pokemon-img"
-              src="https://img.pokemondb.net/sprites/black-white/anim/normal/${opponentPokemon.pokemonName.toLowerCase()}.gif"
-              alt="${opponentPokemon.pokemonName}"
-            />
-
-            <img
-              class="pokemon-floor"
-              src="/img/bg/pokemon_battle_template_floor.png"
-              alt=""
-            />
-            
-          </div>
-          <div class="player-pokemon-stat-cont">
-            <p class="pokemon-battle-name text-center">${
-              opponentPokemon.pokemonName
-            }</p>
-            <p class="pokemon-battle-stat">Health:
-              <span class="pokemon-description-value text-capitalize">${
-                opponentPokemon.health
-              }</span>
-            </p>
-            <p class="pokemon-battle-stat">Status:
-              <span class="pokemon-description-value text-capitalize">${
-                opponentPokemon.status ?? "Normal"
-              }</span>
-            </p>
-            <p class="pokemon-battle-stat">Type:
-              <span class="pokemon-description-value text-capitalize">${
-                opponentPokemon.pokemonType
-              }</span>
-            </p>
-          </div>
-        
+      <div class="player-pokemon-img-cont">
+        <div class="damage-display player-damage"></div>
+        <img
+          class="player-pokemon-img"
+          src="https://img.pokemondb.net/sprites/black-white/anim/back-normal/${playerPokemon.pokemonName.toLowerCase()}.gif"
+          alt="${playerPokemon.pokemonName}"
+        />
+        <img
+          class="pokemon-floor"
+          src="/img/bg/pokemon_battle_template_floor.png"
+          alt=""
+        />
       </div>
+    </div>
+
+    <!-- Opponent Pokemon -->
+    <div class="opponent-pokemon-cont">
+      <div class="opponent-pokemon-img-cont">
+        <div class="damage-display opponent-damage"></div>
+        <img
+          class="opponent-pokemon-img"
+          src="https://img.pokemondb.net/sprites/black-white/anim/normal/${opponentPokemon.pokemonName.toLowerCase()}.gif"
+          alt="${opponentPokemon.pokemonName}"
+        />
+        <img
+          class="pokemon-floor"
+          src="/img/bg/pokemon_battle_template_floor.png"
+          alt=""
+        />
+      </div>
+      <div class="player-pokemon-stat-cont">
+        ${renderPokemonBattleStats(opponentPokemon)}
+      </div>
+    </div>
+
 
       <!-- Buttons -->
       <div class="battle-btn-cont battle-btn-post">
@@ -375,12 +337,11 @@ export function renderBattleStart(
             <thead>
               <tr>
                 <th class="score-header" scope="col">#</th>
-                <th class="score-header" class="text-center" scope="col">
+                <th class="score-header text-center" scope="col">
                   Name
                 </th>
                 <th
                   class="score-header text-center score-col"
-                  class="text-center"
                   scope="col"
                 >
                   Score
@@ -401,48 +362,4 @@ export function renderBattleStart(
       </div>
     </aside>
 `;
-}
-
-function generateRankingModal(scoreBoard) {
-  if (!Array.isArray(scoreBoard) || scoreBoard.length === 0) {
-    return;
-  }
-
-  return scoreBoard
-    .map((trainers, index) => {
-      return `
-      <tr>
-        <th class="table-rank-text" scope="row">${index + 1}</th>
-        <td>
-          <div class="table-name-data-cont">
-            ${trainers.trainer}
-            <span
-              >${
-                index + 1 === 1
-                  ? `<img
-                class="top-rank-crown"
-                src="/img/misc/crown-gold.svg"
-                alt="gold crown"
-            />`
-                  : index + 1 === 2
-                  ? `<img
-                class="top-rank-crown"
-                src="/img/misc/crown-silver.svg"
-                alt="silver crown"
-            />`
-                  : index + 1 === 3
-                  ? `<img
-                class="top-rank-crown"
-                src="/img/misc/crown-bronze.svg"
-                alt="bronze crown"
-            />`
-                  : ""
-              }</span>
-          </div>
-        </td>
-        <td class="text-center">${trainers.wins}</td>
-      </tr>
-    `;
-    })
-    .join("");
 }

@@ -67,6 +67,7 @@ body {
 .start-btn:link,
 .start-btn:visited {
   font-size: 3rem;
+  margin-top: 2rem;
   color: #ddd;
   background-color: #3860aa;
   padding: 2rem 4rem;
@@ -101,4 +102,26 @@ body {
   color: rgb(255, 203, 5);
   -webkit-text-stroke: 0.7rem #0d508d;
   text-shadow: 2px 8px 10px #000;
+}
+
+.confirm-btn {
+  font-size: 3rem;
+  color: #ddd;
+  background-color: #3860aa;
+  padding: 2rem 4rem;
+  border-radius: 13px;
+  box-shadow: 0px 4px 8px 6px rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+  opacity: 0.9;
+  transition: all 0.3s ease-in-out;
+
+  position: absolute;
+  bottom: 15rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.confirm-btn:hover {
+  background-color: #2d4d88;
+  color: #fff;
 }

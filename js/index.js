@@ -6,10 +6,15 @@ import * as trainers from "./trainer.js";
 import * as pokemons from "./pokemons.js";
 import * as battle from "./battle.js";
 import * as score from "./score.js";
+import { characters } from "./characters.js";
+import { selectCharacter } from "./characters.js";
+
 
 window.trainers = trainers;
 window.pokemons = pokemons;
 window.battle = battle;
+window.score = score;
+window.characters = characters;
 
 let tournamentRoster = [];
 let roundRobinPlayers = [];
@@ -29,47 +34,57 @@ mainContent.innerHTML = Main.introHTML;
  *  Gender selection
  *
  */
-function selectGender() {
-  console.log("Current Page: Gender selection section page");
-  mainContent.innerHTML = Main.selectCharacter;
+function selectCharacterPage() {
+  console.log("Current Page: Character selection section");
+  mainContent.innerHTML = selectCharacter;
 
+  let selectedCharacter = null;
+
+  // Character selection (only when clicking the button)
   document.querySelectorAll(".select-trainer-btn").forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      const selectedGender = btn.value;
-      console.log("selected gender:", selectedGender);
-      player.gender = selectedGender;
+    btn.addEventListener("click", function () {
+      // Remove highlight from all cards
+      document.querySelectorAll(".trainer-card").forEach((card) => {
+        card.classList.remove("selected");
+      });
 
-      if (selectedGender === "male") {
-        player.playerName = "Brendan Birch";
+      // Highlight the card that contains the clicked button
+      const trainerCard = this.closest(".trainer-card");
+      trainerCard.classList.add("selected");
 
-        player.avatar.avatarFront = "Brendan-Sprite-Front.png";
-        player.avatar.avatarBack = "Brendan-Sprite-Back.png";
-
-        player.sprites.charBack = "";
-        player.sprites.charFront = "";
-        player.sprites.charWalkUp = "";
-        player.sprites.charWalkDown = "";
-        player.sprites.charWalkLeft = "";
-        player.sprites.charWalkRight = "";
-      } else {
-        player.playerName = "May Birch";
-
-        player.avatar.avatarFront = "May-Sprite-Front.png";
-        player.avatar.avatarBack = "May-Sprite-Back.png";
-
-        player.sprites.charBack = "";
-        player.sprites.charFront = "";
-        player.sprites.charWalkUp = "";
-        player.sprites.charWalkDown = "";
-        player.sprites.charWalkLeft = "";
-        player.sprites.charWalkRight = "";
-      }
-      console.log("player:", player);
-
-      selectPokemon();
+      // Store selected character ID
+      selectedCharacter = btn.value;
+      console.log("Selected Character:", selectedCharacter);
     });
   });
+
+  // Confirm button
+  document.querySelector("#select-character-btn").addEventListener("click", function () {
+    if (!selectedCharacter) {
+      alert("Please choose your character first!");
+      return;
+    }
+
+    // Find chosen character by ID
+    const chosen = characters.find((c) => c.id === selectedCharacter);
+    if (!chosen) {
+      console.error("Character not found for ID:", selectedCharacter);
+      return;
+    }
+
+    // Update player data
+    const player = trainers.player;
+    player.id = chosen.id;
+    player.playerName = chosen.name;
+    player.avatar.avatarFront = chosen.avatarFront;
+    player.avatar.avatarBack = chosen.avatarBack;
+
+    console.log("✅ Player selected:", player);
+    selectPokemon(); // Move to next step
+  });
 }
+
+
 
 /**
  *
@@ -432,7 +447,7 @@ document.addEventListener("DOMContentLoaded", () => {
       startGameBtn.addEventListener("click", (e) => {
         e.preventDefault();
         console.log("Start Game button clicked");
-        selectGender();
+        selectCharacterPage()
       });
     }
     } else if (startBtn) {
@@ -441,3 +456,38 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+export function showDamage(isPlayer, damageValue) {
+  const target = document.querySelector(
+    isPlayer ? ".player-damage" : ".opponent-damage"
+  );
+  if (!target) return;
+
+  const damageText = document.createElement("span");
+  damageText.classList.add("damage-text");
+  damageText.textContent = `-${damageValue} HP`;
+
+  target.appendChild(damageText);
+
+  // Trigger animation
+  setTimeout(() => {
+    damageText.classList.add("animate");
+  }, 10);
+
+  // Remove after animation
+  setTimeout(() => {
+    damageText.remove();
+  }, 1200);
+}
+
+
+document.querySelectorAll(".select-trainer-btn").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    document
+      .querySelectorAll(".trainer-card")
+      .forEach((card) => card.classList.remove("selected"));
+    e.target.closest(".trainer-card").classList.add("selected");
+  });
+});
+
+

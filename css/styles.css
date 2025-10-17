@@ -155,21 +155,7 @@
   transform: scale(0.95);
 }
 
-.select-trainer-btn.male {
-  border: 0.5rem solid #8cacd6;
-}
 
-.select-trainer-btn.male:hover {
-  border: 1rem solid #8cacd6;
-}
-
-.select-trainer-btn.female {
-  border: 0.5rem solid #f8b9d4;
-}
-
-.select-trainer-btn.female:hover {
-  border: 1rem solid #f8b9d4;
-}
 
 .select-male-cont,
 .select-female-cont {
@@ -601,11 +587,6 @@
   padding-right: 2rem;
 }
 
-.score-modal-content {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between; */
-}
 
 .score-title {
   font-size: 4rem;
@@ -684,3 +665,66 @@ td,
   transform: translateY(5px);
   box-shadow: none;
 }
+
+
+.trainer-card,
+.trainer-img-cont,
+.select-trainer-btn {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.trainer-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.trainer-img {
+  width: 14rem;
+  height: 14rem;
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.trainer-card:hover .trainer-img {
+  transform: scale(1.1);
+}
+
+.trainer-name {
+  font-family: 'Pokemon Solid', sans-serif;
+  color:#fff;
+  margin-top: 0.8rem;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px #000;
+}
+.trainer-card.selected {
+  border: 3px solid #ffcb05;
+  box-shadow: 0 0 20px #ffcb05;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(1);
+}
+
+.trainer-start-cont {
+  display: flex;
+  justify-content: center;
+}
+
+.trainer-card.selected {
+  outline: 3px solid #4caf50;
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+
+
+
+
+
