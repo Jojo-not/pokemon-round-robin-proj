@@ -352,6 +352,7 @@ export function renderBattleStart(
               ${generateRankingModal(scoreBoard)}
             </tbody>
           </table>
+          
 
           <p class="score-message text-center d-none">Thank you for playing!</p>
         </div>
