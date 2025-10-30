@@ -39,6 +39,31 @@ function selectCharacterPage() {
   mainContent.innerHTML = selectCharacter;
 
   let selectedCharacter = null;
+  const confirmBtn = document.querySelector("#select-character-btn");
+  const trainerInfoDisplay = document.querySelector("#selected-trainer-info");
+
+  // Function to update trainer info display
+  function updateTrainerInfo(character) {
+    if (character) {
+      trainerInfoDisplay.innerHTML = `
+        <h3 class="trainer-info-title">${character.name}</h3>
+        <p class="trainer-info-description">${character.description}</p>
+        <div class="trainer-stats">
+          <p><strong>Region:</strong> ${character.region}</p>
+          <p><strong>Specialty:</strong> ${character.specialty}</p>
+          <p><strong>Level:</strong> ${character.level}</p>
+        </div>
+      `;
+    } else {
+      trainerInfoDisplay.innerHTML = `
+        <h3 class="trainer-info-title">Select a Trainer</h3>
+        <p class="trainer-info-description">Choose your character to see their details</p>
+      `;
+    }
+  }
+
+  // Initialize with no selection
+  updateTrainerInfo(null);
 
   // Character selection (only when clicking the button)
   document.querySelectorAll(".select-trainer-btn").forEach((btn) => {
@@ -52,14 +77,20 @@ function selectCharacterPage() {
       const trainerCard = this.closest(".trainer-card");
       trainerCard.classList.add("selected");
 
-      // Store selected character ID
+      // Store selected character ID and update info display
       selectedCharacter = btn.value;
+      const character = characters.find(char => char.id === selectedCharacter);
+      updateTrainerInfo(character);
+      
+      // Enable confirm button
+      confirmBtn.disabled = false;
+      
       console.log("Selected Character:", selectedCharacter);
     });
   });
 
   // Confirm button
-  document.querySelector("#select-character-btn").addEventListener("click", function () {
+  confirmBtn.addEventListener("click", function() {
     if (!selectedCharacter) {
       alert("Please choose your character first!");
       return;

@@ -681,29 +681,117 @@ td,
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  border: 2px solid rgba(255, 203, 5, 0.3);
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
 }
+
+.trainer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.trainer-card:hover::before {
+  left: 100%;
+}
+
+.trainer-card:hover {
+  transform: translateY(-10px) scale(1.05);
+  border-color: #ffcb05;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.3),
+    0 0 30px rgba(255, 203, 5, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.trainer-img-cont {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
 .trainer-img {
-  width: 14rem;
-  height: 14rem;
+  width: 16rem;
+  height: 16rem;
   border-radius: 50%;
-  transition: transform 0.3s ease;
+  transition: all 0.4s ease;
+  border: 4px solid rgba(255, 203, 5, 0.6);
+  box-shadow: 
+    0 0 20px rgba(255, 203, 5, 0.3),
+    inset 0 0 20px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
 .trainer-card:hover .trainer-img {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(5deg);
+  border-color: #ffcb05;
+  box-shadow: 
+    0 0 30px rgba(255, 203, 5, 0.6),
+    0 0 60px rgba(255, 203, 5, 0.3);
 }
 
 .trainer-name {
   font-family: 'Pokemon Solid', sans-serif;
-  color:#fff;
-  margin-top: 0.8rem;
-  letter-spacing: 1px;
-  text-shadow: 2px 2px 4px #000;
+  color: #fff;
+  font-size: 2.2rem;
+  margin-top: 1rem;
+  letter-spacing: 2px;
+  text-shadow: 
+    2px 2px 4px #000,
+    0 0 10px rgba(255, 203, 5, 0.5);
+  transition: all 0.3s ease;
+  text-align: center;
 }
+
+.trainer-card:hover .trainer-name {
+  color: #ffcb05;
+  text-shadow: 
+    2px 2px 4px #000,
+    0 0 20px rgba(255, 203, 5, 0.8);
+  transform: scale(1.05);
+}
+
 .trainer-card.selected {
   border: 3px solid #ffcb05;
-  box-shadow: 0 0 20px #ffcb05;
-  transform: scale(1.05);
+  box-shadow: 
+    0 0 40px rgba(255, 203, 5, 0.8),
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    inset 0 0 20px rgba(255, 203, 5, 0.2);
+  transform: scale(1.1);
+  background: linear-gradient(145deg, rgba(255, 203, 5, 0.1), rgba(255, 203, 5, 0.05));
+}
+
+.trainer-card.selected .trainer-img {
+  border-color: #ffcb05;
+  box-shadow: 
+    0 0 40px rgba(255, 203, 5, 0.8),
+    inset 0 0 20px rgba(255, 203, 5, 0.3);
+}
+
+.trainer-card.selected .trainer-name {
+  color: #ffcb05;
+  text-shadow: 
+    2px 2px 4px #000,
+    0 0 20px rgba(255, 203, 5, 1);
+}
+
+/* Enhanced Carousel Controls */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 60px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 50%;
+  border: 2px solid #ffcb05;
   transition: all 0.3s ease;
 }
 
@@ -717,10 +805,245 @@ td,
   justify-content: center;
 }
 
+.confirm-btn {
+  background: linear-gradient(145deg, #ffcb05, #ffd700);
+  border: 3px solid #0d508d;
+  border-radius: 15px;
+  padding: 1.5rem 3rem;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #0d508d;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+  box-shadow: 
+    0 8px 16px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.confirm-btn:hover {
+  background: linear-gradient(145deg, #ffd700, #ffcb05);
+  box-shadow: 
+    0 12px 24px rgba(0, 0, 0, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.confirm-btn:active {
+  transform: translateY(0);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Trainer Selection Animation */
+@keyframes trainerSelect {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(255, 203, 5, 0);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 203, 5, 0.6);
+  }
+  100% {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(255, 203, 5, 0.8);
+  }
+}
+
 .trainer-card.selected {
-  outline: 3px solid #4caf50;
-  transform: scale(1.05);
-  transition: transform 0.2s ease;
+  animation: trainerSelect 0.6s ease-out;
+}
+
+/* Trainer Info Display */
+.trainer-info-display {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(145deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
+  border: 2px solid rgba(255, 203, 5, 0.5);
+  border-radius: 15px;
+  padding: 2rem;
+  min-width: 200px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.trainer-info-title {
+  color: #ffcb05;
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px #000;
+  text-align: center;
+}
+
+.trainer-info-description {
+  color: #fff;
+  font-size: 1.4rem;
+  text-align: center;
+  margin: 0;
+}
+
+.trainer-stats {
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.trainer-stats p {
+  color: #fff;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(255, 203, 5, 0.3);
+}
+
+.trainer-stats strong {
+  color: #ffcb05;
+  font-weight: bold;
+}
+
+/* Enhanced Trainer Card Details */
+.trainer-details {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.trainer-region {
+  color: #ffcb05;
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.trainer-specialty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 1rem;
+}
+
+.specialty-label {
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.specialty-value {
+  color: #ffcb05;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.trainer-level-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: linear-gradient(145deg, #ffcb05, #ffd700);
+  color: #0d508d;
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border: 2px solid #0d508d;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+.trainer-img-cont {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+/* Enhanced Selection States */
+.trainer-card:hover .trainer-level-badge {
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.trainer-card.selected .trainer-level-badge {
+  background: linear-gradient(145deg, #ffd700, #ffcb05);
+  box-shadow: 0 4px 8px rgba(255, 203, 5, 0.6);
+}
+
+/* Confirm Button States */
+.confirm-btn:disabled {
+  background: linear-gradient(145deg, #666, #555);
+  color: #999;
+  border-color: #666;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-btn:disabled:hover {
+  background: linear-gradient(145deg, #666, #555);
+  transform: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Trainer Selection Animation Enhancement */
+@keyframes trainerGlow {
+  0% {
+    box-shadow: 0 0 20px rgba(255, 203, 5, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 203, 5, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(255, 203, 5, 0.4);
+  }
+}
+
+.trainer-card.selected {
+  animation: trainerSelect 0.6s ease-out, trainerGlow 2s ease-in-out infinite;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .trainer-card {
+    min-width: 250px;
+    min-height: 300px;
+    margin: 0.5rem;
+  }
+  
+  .trainer-img {
+    width: 12rem;
+    height: 12rem;
+  }
+  
+  .trainer-name {
+    font-size: 1.8rem;
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .carousel-control-prev {
+    left: 10px;
+  }
+  
+  .carousel-control-next {
+    right: 10px;
+  }
+  
+  .trainer-info-display {
+    min-width: 300px;
+    padding: 1.5rem;
+  }
+  
+  .trainer-info-title {
+    font-size: 2rem;
+  }
+  
+  .trainer-info-description {
+    font-size: 1.2rem;
+  }
 }
 
 
